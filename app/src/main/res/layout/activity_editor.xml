@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.abhijeet.todo.EditorActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/task"
+            android:paddingRight="72dp"/>
+
+        <!-- Name field -->
+        <EditText
+            style="@style/EditorFieldStyle"
+            android:hint="@string/task"
+            android:inputType="textCapWords" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/textView"
+            style="@style/CategoryStyle"
+            android:text="@string/time"
+            android:paddingRight="72dp"/>
+
+        <!-- Name field -->
+        <EditText
+            style="@style/EditorFieldStyle"
+            android:hint="@string/time"
+            android:inputType="textCapWords" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
