@@ -19,6 +19,7 @@
 
         <!-- Name field -->
         <EditText
+            android:id="@+id/task_edit_field"
             style="@style/EditorFieldStyle"
             android:hint="@string/task"
             android:inputType="textCapWords" />
@@ -38,15 +39,11 @@
 
         <!-- Name field -->
         <TextView
-            android:id="@+id/time_editext_field"
+            android:id="@+id/time_edit_field"
             style="@style/EditorFieldStyle"
             android:hint="@string/time" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </LinearLayout>

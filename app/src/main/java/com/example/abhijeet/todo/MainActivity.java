@@ -1,12 +1,19 @@
 package com.example.abhijeet.todo;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.example.abhijeet.todo.Data.TodoContract;
+import com.example.abhijeet.todo.Data.TodoDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +40,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.insert_dummy_data:
+                TodoDbHelper dbhelper = new TodoDbHelper(getBaseContext());
+                SQLiteDatabase db = dbhelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put(TodoContract.TodoEntry.COLUMN_TASK, "Task 1 Time:");
+                values.put(TodoContract.TodoEntry.COLUMN_TIME, 1);
+                db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
+                values.clear();
+                updatedata();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updatedata() {
+        TodoDbHelper dbhelper = new TodoDbHelper(getBaseContext());
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+        Cursor cursor = db.query(TodoContract.TodoEntry.TABLE_NAME, null, null, null, null, null, null);
+        TextView tv = (TextView) findViewById(R.id.Maintextview);
+        tv.setText("");
+        while (cursor.moveToNext() != false) {
+            String task = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TASK));
+            int time = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TIME));
+            tv.append(task + "" + time + "\n");
+        }
+
     }
 }

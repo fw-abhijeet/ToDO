@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/add"
-      android:icon="@drawable/ic_done_white_24dp"
+    <item
+        android:id="@+id/add_menu_button"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/add"
         app:showAsAction="always"/>
 
 
-    <item android:title="@string/delete"
+    <item
+        android:id="@+id/delete_menu_button"
+        android:title="@string/delete"
         app:showAsAction="never"/>
 </menu>
