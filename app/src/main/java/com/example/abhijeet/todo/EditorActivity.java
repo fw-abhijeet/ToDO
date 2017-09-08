@@ -12,13 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import com.example.abhijeet.todo.Data.TodoContract;
 import com.example.abhijeet.todo.Data.TodoDbHelper;
-
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
+
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -28,7 +25,7 @@ public class EditorActivity extends AppCompatActivity {
     private static TextView time_textview;
 
     //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
-    // lot of functionalities would break :(
+    // else a lot of functionalities would break :(
     private boolean misaNewTask = false;
 
     @Override
@@ -56,9 +53,9 @@ public class EditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //Return early if nothing has changed
-        if (!misaNewTask) {
-            return false;
-        }
+        //   if (!misaNewTask) {
+        //        return false;
+        //   }
 
         //Get the data from Task textview
         TextView task_view = (TextView) findViewById(R.id.task_edit_field);
@@ -68,13 +65,10 @@ public class EditorActivity extends AppCompatActivity {
         int time = selecteddatetime.get(Calendar.HOUR_OF_DAY);
         switch (item.getItemId()) {
             case R.id.add_menu_button:
-                TodoDbHelper dbhelper = new TodoDbHelper(getBaseContext());
-                SQLiteDatabase db = dbhelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
                 values.put(TodoContract.TodoEntry.COLUMN_TASK, task);
                 values.put(TodoContract.TodoEntry.COLUMN_TIME, time);
-                db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
-                values.clear();
+                getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
                 return true;
 
             // Implementation of CONFIRM DIALOG if misaNewtask == true and the user has pressed back button

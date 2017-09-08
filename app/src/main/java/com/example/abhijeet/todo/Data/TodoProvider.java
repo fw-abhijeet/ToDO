@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Abhijeet on 9/8/2017.
@@ -111,19 +112,34 @@ public class TodoProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI" + uri);
         }
+
+        // Set notification URI on the Cursor,
+        // so we know what content URI the Cursor was created for.
+        // If the data at this URI changes, then we know we need to update the Cursor.
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+
         return null;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
+
+        //match the URI to the appropriate case
+        int match = mUrimatcher.match(uri);
+        switch (match) {
+            case TODO:
+                return insertTodo(uri, contentValues);
+            default:
+                throw new IllegalArgumentException("Cannot insert at unknown URI" + uri);
+        }
     }
 
     @Override
@@ -134,5 +150,30 @@ public class TodoProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
         return 0;
+    }
+
+    //HELPER METHOD
+    //To insert the new TO-DO data
+
+    private Uri insertTodo(Uri uri, ContentValues contentValues) {
+        // Get writeable database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Insert the new to-do with the given values
+        long id = database.insert(TodoContract.TodoEntry.TABLE_NAME, null, contentValues);
+
+        // If the ID is -1, then the insertion failed. Log an error and return null.
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        // Notify all listeners that the data has changed for the content URI
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        // Return the new URI with the ID (of the newly inserted row) appended at the end
+        return ContentUris.withAppendedId(uri, id);
+
+
     }
 }
