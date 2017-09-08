@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity"></activity>
+
+        <provider
+            android:name=".Data.TodoProvider"
+            android:authorities="com.example.abhijeet.todo"
+            android:exported="false" />
     </application>
 
 </manifest>

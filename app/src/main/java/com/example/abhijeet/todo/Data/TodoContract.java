@@ -15,7 +15,7 @@ public final class TodoContract {
      * content authority is the package name for the app, which is guaranteed to be unique on the
      * device.
      */
-    public static final String CONTENT_AUTHORITY = "com.example.abhijeet.todo   ";
+    public static final String CONTENT_AUTHORITY = "com.example.abhijeet.todo";
     /**
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
      * the content provider.
@@ -33,7 +33,9 @@ public final class TodoContract {
     }
 
     //Inner class for the table to-do and all its entries
-    public final class TodoEntry implements BaseColumns {
+    public static final class TodoEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_TODO);
 
         /**
          * Unique ID number for the to-do (only for use in the database table).

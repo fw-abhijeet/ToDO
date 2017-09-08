@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updatedata() {
-        TodoDbHelper dbhelper = new TodoDbHelper(getBaseContext());
-        SQLiteDatabase db = dbhelper.getReadableDatabase();
-        Cursor cursor = db.query(TodoContract.TodoEntry.TABLE_NAME, null, null, null, null, null, null);
+
+
+        Cursor cursor = getContentResolver().query(TodoContract.TodoEntry.CONTENT_URI, null, null, null, null);
         TextView tv = (TextView) findViewById(R.id.Maintextview);
         tv.setText("");
+        if (cursor == null)
+            Log.e("ABHIJEET", "NULL EXCEPTION");
         while (cursor.moveToNext() != false) {
             String task = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TASK));
             int time = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TIME));
