@@ -23,9 +23,13 @@ import java.util.Calendar;
 public class EditorActivity extends AppCompatActivity {
 
     //Selected time by the user
-    public static Calendar selecteddatetime;
+    private static Calendar selecteddatetime;
     //Global Variable for the EditTextTime Field
     private static TextView time_textview;
+
+    //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
+    // lot of functionalities would break :(
+    private boolean misaNewTask = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,12 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        //Return early if nothing has changed
+        if (!misaNewTask) {
+            return false;
+        }
+
         //Get the data from Task textview
         TextView task_view = (TextView) findViewById(R.id.task_edit_field);
         String task = task_view.getText().toString().trim();
@@ -66,6 +76,10 @@ public class EditorActivity extends AppCompatActivity {
                 db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
                 values.clear();
                 return true;
+
+            // Implementation of CONFIRM DIALOG if misaNewtask == true and the user has pressed back button
+            case android.R.id.home:
+                //// TODO: 9/9/2017 implement confirm dialog box
         }
         return super.onOptionsItemSelected(item);
     }
