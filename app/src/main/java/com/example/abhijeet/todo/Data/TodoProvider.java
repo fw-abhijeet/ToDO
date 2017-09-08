@@ -154,6 +154,7 @@ public class TodoProvider extends ContentProvider {
 
     //HELPER METHOD
     //To insert the new TO-DO data
+    //Returns NULL if failed to insert a pet
 
     private Uri insertTodo(Uri uri, ContentValues contentValues) {
         // Get writeable database
