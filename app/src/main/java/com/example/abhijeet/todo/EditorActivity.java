@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.abhijeet.todo.Data.TodoContract;
 
@@ -22,20 +24,37 @@ public class EditorActivity extends AppCompatActivity {
 
     //Selected time by the user if not it is the current system time
     private static Calendar selecteddatetime;
-    //Global Variable for the EditTextTime Field
+
+    //Global field for the EditTime Field
     private static TextView time_textview;
+
+    //Global Field for TaskEdit Field
+    private static TextView task_textview;
 
     //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
     // else a lot of functionalities would break :(
     private boolean misaNewTask = false;
 
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            misaNewTask = true;
+            return false;
+        }
+    };
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+        //Get references to all the data fields in the Editor Window
         time_textview = (TextView) findViewById(R.id.time_edit_field);
+        task_textview = (TextView) findViewById(R.id.task_edit_field);
+
+        //Set on touch Listeners For all the fields available in the editor
+        //To find out if the user has changed any data or not
+        //Set the variable misaNewtask to true if any touch event occurs
+        task_textview.setOnTouchListener(mTouchListener);
+        time_textview.setOnTouchListener(mTouchListener);
 
         time_textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,9 +103,12 @@ public class EditorActivity extends AppCompatActivity {
                 values.put(TodoContract.TodoEntry.COLUMN_TIME, minutes_after_midnight);
                 Uri uri = getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
 
-                //The Uri == null means that insertion is not successful
-                if (uri == null) {
-                    //// TODO: 9/9/2017 add this functionality
+                //If the Uri equals null means that insertion is not successful
+                //This case is already handled by Todoprovider insert method
+
+                //If the URI is not null, that means that the insertion is successful
+                if (uri != null) {
+                    Toast.makeText(this, R.string.task_added_successfully, Toast.LENGTH_SHORT).show();
                 }
 
                 finish();

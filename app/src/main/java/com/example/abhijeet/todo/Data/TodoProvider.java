@@ -9,7 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.abhijeet.todo.R;
 
 /**
  * Created by Abhijeet on 9/8/2017.
@@ -131,7 +135,15 @@ public class TodoProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-
+        //Get the value of COLUMN_TASK from the contentValues object
+        //Check whether its empty or not not
+        //return early if empty and pop up a toast message;
+        String task = contentValues.getAsString(TodoContract.TodoEntry.COLUMN_TASK);
+        if (!checkTaskSanity(task)) {
+            Log.e(LOG_TAG, "Task is Empty, Enter something.");
+            Toast.makeText(getContext(), R.string.task_cannot_be_empty, Toast.LENGTH_SHORT).show();
+            return null;
+        }
         //match the URI to the appropriate case
         int match = mUrimatcher.match(uri);
         switch (match) {
@@ -143,13 +155,59 @@ public class TodoProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        // Get write-able database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Track the number of rows that were deleted
+        int rowsDeleted;
+
+        final int match = mUrimatcher.match(uri);
+        switch (match) {
+            case TODO:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(TodoContract.TodoEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case TODO_ID:
+                // Delete a single row given by the ID in the URI
+                selection = TodoContract.TodoEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(TodoContract.TodoEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
+
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(Uri uri, ContentValues contentValues, String selection,
+                      String[] selectionArgs) {
+        final int match = mUrimatcher.match(uri);
+
+        switch (match) {
+            case TODO:
+                return updatePet(uri, contentValues, selection, selectionArgs);
+
+            case TODO_ID:
+                // For the TODO_ID code, extract out the ID from the URI,
+                // so we know which row to update. Selection will be "_id=?" and selection
+                // arguments will be a String array containing the actual ID.
+                selection = TodoContract.TodoEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updatePet(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
 
     //HELPER METHOD
@@ -176,4 +234,41 @@ public class TodoProvider extends ContentProvider {
 
 
     }
+
+    /**
+     * HELPER METHOD
+     * Update TO-DO in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments (which could be 0 or 1 or more).
+     * Return the number of rows that were successfully updated.
+     */
+    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(TodoContract.TodoEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of rows updated
+        return rowsUpdated;
+    }
+
+    private boolean checkTaskSanity(String task) {
+        if (TextUtils.isEmpty(task))
+            return false;
+        else
+            return true;
+    }
+
 }

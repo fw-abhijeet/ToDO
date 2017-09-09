@@ -5,4 +5,7 @@
     <string name="time">Time</string>
     <string name="add">Add</string>
     <string name="delete">Delete</string>
+    <string name="delete_all_data">Delete all Data</string>
+    <string name="task_cannot_be_empty">Task cannot be Empty</string>
+    <string name="task_added_successfully">Task Added</string>
 </resources>

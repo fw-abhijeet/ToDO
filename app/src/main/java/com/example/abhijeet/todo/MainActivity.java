@@ -6,7 +6,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.abhijeet.todo.Data.TodoContract;
-import com.example.abhijeet.todo.Data.TodoDbHelper;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     private static final int PET_LOADER = 0;
 
-    //Gloabal variable for the cursor adaptor as it will be used several times, hah just to put it in plain english.
+    //Global variable for the cursor adaptor as it will be used several times, hah just to put it in plain english.
     private TodoCursorAdaptor mCursorAdapter;
 
     @Override
@@ -65,14 +63,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.insert_dummy_data:
-                TodoDbHelper dbhelper = new TodoDbHelper(getBaseContext());
-                SQLiteDatabase db = dbhelper.getWritableDatabase();
+                //Construct the ContentValues object with the necessary data
                 ContentValues values = new ContentValues();
-                values.put(TodoContract.TodoEntry.COLUMN_TASK, "Task 1 Time:");
-                values.put(TodoContract.TodoEntry.COLUMN_TIME, 1);
-                db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
-                db.close();
+                values.put(TodoContract.TodoEntry.COLUMN_TASK, "Finish This Project fast");
+                values.put(TodoContract.TodoEntry.COLUMN_TIME, 14500);
+                getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
                 return true;
+
+            case R.id.delete_all_data:
+                getContentResolver().delete(TodoContract.TodoEntry.CONTENT_URI, null, null);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

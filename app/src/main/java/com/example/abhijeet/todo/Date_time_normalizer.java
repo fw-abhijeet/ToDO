@@ -9,7 +9,7 @@ import java.util.Calendar;
 //HELPER CLASS
 //The only function of this class is to normalize the date and time values which
 // are stored in the database.
-//Suppose Time is stored as INTEGER as number of minutes past after midnight
+// Time is stored in databse as a INTEGER which represents the number of minutes past after midnight
 //
 //
 public class Date_time_normalizer {

@@ -58,7 +58,11 @@ public class TodoCursorAdaptor extends CursorAdapter {
         //Read the relevant attributes from the cursor to display in the textviews
         String task = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TASK));
         int minutes_after_midnight = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TIME));
+
+        //Time is stored as a INTEGER (minutes-after_midnight) int the database
+        //It needs to be normalized before output
         String normalized_time = Date_time_normalizer.getTimeAsNormalized(minutes_after_midnight);
+
         //Update the Textviews
         tasktextview.setText(task);
         timedatetextview.setText(normalized_time);

@@ -7,4 +7,9 @@
         android:id="@+id/insert_dummy_data"
         android:title="INSERT DUMMY DATA"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_all_data"
+        android:title="@string/delete_all_data"
+        app:showAsAction="never" />
 </menu>
