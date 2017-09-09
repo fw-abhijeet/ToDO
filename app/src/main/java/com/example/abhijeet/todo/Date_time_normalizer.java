@@ -39,7 +39,35 @@ public class Date_time_normalizer {
         return formattedTime;
     }
 
-    public static String timeNormalizer() {   //// TODO: 9/9/2017  IMPLEMENT time formatter to convert integer values stored in database to normal form
-        return null;
+    /**
+     * HELPER METHOD to get the time normalized
+     * Because the time is stored as an integer variable in the database(minutes_after_midnight)
+     *
+     * @param {@Calender } Reference for which the normalizing is to be done
+     * @return Returns a int with the correctly Formatted Time
+     */
+
+    public static int getTimeAsMinutes(Calendar calReference) {
+
+        int hourOfDay = calReference.get(Calendar.HOUR_OF_DAY);
+        int minute = calReference.get(Calendar.MINUTE);
+        int minutes_after_midnight = (hourOfDay * 60) + minute;
+        return minutes_after_midnight;
+    }
+
+    /**
+     * HELPER METHOD to get the time normalized back to readable format
+     * Because the time is stored as an integer variable in the database(minutes_after_midnight)
+     *
+     * @param minutes_after_midnight time output from the databsew
+     * @return Returns a String with the correctly Formatted Time
+     */
+    public static String getTimeAsNormalized(int minutes_after_midnight) {
+        Calendar c = Calendar.getInstance();
+        int hourOfDay = minutes_after_midnight / 60;
+        int minute = minutes_after_midnight % 60;
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        return timeFormatter(c);
     }
 }

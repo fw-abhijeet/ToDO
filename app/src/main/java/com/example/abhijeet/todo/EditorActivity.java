@@ -78,10 +78,10 @@ public class EditorActivity extends AppCompatActivity {
                 String task = task_view.getText().toString().trim();
 
                 //get time from the global calender variable
-                int time = selecteddatetime.get(Calendar.MINUTE);
+                int minutes_after_midnight = Date_time_normalizer.getTimeAsMinutes(selecteddatetime);
                 ContentValues values = new ContentValues();
                 values.put(TodoContract.TodoEntry.COLUMN_TASK, task);
-                values.put(TodoContract.TodoEntry.COLUMN_TIME, time);
+                values.put(TodoContract.TodoEntry.COLUMN_TIME, minutes_after_midnight);
                 Uri uri = getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
 
                 //The Uri == null means that insertion is not successful
