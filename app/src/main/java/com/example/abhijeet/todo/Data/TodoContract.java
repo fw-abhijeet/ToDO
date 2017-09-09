@@ -42,7 +42,6 @@ public final class TodoContract {
          * <p>
          * Type: INTEGER
          */
-
         public final static String _ID = BaseColumns._ID;
 
         public static final String TABLE_NAME = "todo";

@@ -29,25 +29,7 @@ public class EditorActivity extends AppCompatActivity {
     // else a lot of functionalities would break :(
     private boolean misaNewTask = false;
 
-    /**
-     * HELPER METHOD to get the time formatted properly
-     *
-     * @param {@Calender } reference for which the time formatting is to be done
-     *                   Returns a String with the correctly Formatted Time
-     */
-    private static String timeFormatter(Calendar calReference) {
-        String am_pm = "";
 
-        if (calReference.get(Calendar.AM_PM) == Calendar.AM) //Ignore Error This code runs perfect
-            am_pm = "AM";
-        else if (calReference.get(Calendar.AM_PM) == Calendar.PM)
-            am_pm = "PM";
-
-        String strHrsToShow = (calReference.get(Calendar.HOUR) == 0) ? "12" : calReference.get(Calendar.HOUR) + "";
-        String formattedTime = strHrsToShow + ":" + calReference.get(Calendar.MINUTE) + " " + am_pm;
-
-        return formattedTime;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +52,7 @@ public class EditorActivity extends AppCompatActivity {
         //set the current time as selected time if user has not selected any time
         selecteddatetime = c;
         //Update the text view with the formatted Time
-        time_textview.setText(timeFormatter(c));
+        time_textview.setText(Date_time_normalizer.timeFormatter(c));
 
 
     }
@@ -96,7 +78,7 @@ public class EditorActivity extends AppCompatActivity {
                 String task = task_view.getText().toString().trim();
 
                 //get time from the global calender variable
-                int time = selecteddatetime.get(Calendar.HOUR_OF_DAY);
+                int time = selecteddatetime.get(Calendar.MINUTE);
                 ContentValues values = new ContentValues();
                 values.put(TodoContract.TodoEntry.COLUMN_TASK, task);
                 values.put(TodoContract.TodoEntry.COLUMN_TIME, time);
@@ -141,7 +123,7 @@ public class EditorActivity extends AppCompatActivity {
             selecteddatetime.set(Calendar.MINUTE, minute);
 
             //update the time text view by calling the timeformatter helper method to format the time as per the needs
-            time_textview.setText(timeFormatter(selecteddatetime));
+            time_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
         }
 
     }
