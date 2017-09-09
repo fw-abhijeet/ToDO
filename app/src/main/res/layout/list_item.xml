@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/task_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D" />
+        android:fontFamily="sans-serif-small"
+        android:paddingLeft="8dp"
+        android:textAppearance="?android:textAppearanceListItem"
+        android:textColor="@android:color/black"
+        tools:text="Meet tim at park" />
 
     <TextView
         android:id="@+id/time_date_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:paddingLeft="8dp"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="#AEB6BD" />
+        android:textColor="#AEB6BD"
+        tools:text="08:30 P.M." />
 </LinearLayout>

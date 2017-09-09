@@ -85,11 +85,6 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //Return early if nothing has changed
-        //   if (!misaNewTask) {
-        //        return false;
-        //   }
-
         switch (item.getItemId()) {
             case R.id.add_menu_button:
                 //Get the data from Task textview
