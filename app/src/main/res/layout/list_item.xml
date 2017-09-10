@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:paddingBottom="16dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/task_show"
@@ -22,6 +25,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:paddingLeft="8dp"
+        android:paddingTop="2dp"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#AEB6BD"
         tools:text="08:30 P.M." />
