@@ -8,4 +8,7 @@
     <string name="delete_all_data">Delete all Data</string>
     <string name="task_cannot_be_empty">Task cannot be Empty</string>
     <string name="task_added_successfully">Task Added</string>
+    <string name="are_you_sure_you_want_to_discard_changes"> Are you sure you want to discard changes ?</string>
+    <string name="yes_discard">Yes, Discard</string>
+    <string name="no_keep_editing">No, Keep editing</string>
 </resources>
