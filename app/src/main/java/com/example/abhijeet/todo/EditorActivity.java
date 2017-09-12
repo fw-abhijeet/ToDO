@@ -115,7 +115,7 @@ public class EditorActivity extends AppCompatActivity {
 
             // Implementation of CONFIRM DIALOG if misaNewtask == true and the user has pressed back button
             case android.R.id.home:
-                //misNewTask changes whenever user touches any field in the  editor window
+                //misNewTask changes to true       whenever user touches any field in the  editor window
                 //If this is set to true, then it means that data has changed and,
                 //We should notify the user about the possible loss of data
                 if (!misaNewTask) {

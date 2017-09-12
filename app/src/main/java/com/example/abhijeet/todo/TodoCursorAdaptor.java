@@ -53,11 +53,15 @@ public class TodoCursorAdaptor extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         //Get the relevant views where the info has to be shown
         TextView tasktextview = (TextView) view.findViewById(R.id.task_show);
-        TextView timedatetextview = (TextView) view.findViewById(R.id.time_show);
+        TextView timetextview = (TextView) view.findViewById(R.id.time_show);
+        TextView datetextview = (TextView) view.findViewById(R.id.date_show);
 
         //Read the relevant attributes from the cursor to display in the textviews
         String task = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TASK));
         int minutes_after_midnight = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TIME));
+        int dayofmonth = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_DATE_DAYOFMONTH));
+        int month = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_DATE_MONTH));
+        int year = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_DATE_YEAR));
 
         //Time is stored as a INTEGER (minutes-after_midnight) int the database
         //It needs to be normalized before output
@@ -65,6 +69,7 @@ public class TodoCursorAdaptor extends CursorAdapter {
 
         //Update the Textviews
         tasktextview.setText(task);
-        timedatetextview.setText(normalized_time);
+        timetextview.setText(normalized_time);
+        datetextview.setText("" + dayofmonth + "-" + month + "-" + year);
     }
 }

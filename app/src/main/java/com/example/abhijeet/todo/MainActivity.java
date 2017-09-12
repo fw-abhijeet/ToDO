@@ -85,7 +85,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] projection = {
                 TodoContract.TodoEntry._ID,
                 TodoContract.TodoEntry.COLUMN_TASK,
-                TodoContract.TodoEntry.COLUMN_TIME};
+                TodoContract.TodoEntry.COLUMN_TIME,
+                TodoContract.TodoEntry.COLUMN_DATE_DAYOFMONTH,
+                TodoContract.TodoEntry.COLUMN_DATE_MONTH,
+                TodoContract.TodoEntry.COLUMN_DATE_YEAR};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,                 // Parent activity context
@@ -106,6 +109,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
         //Callback called when the loader resets i.e. data needs to be deleted
         mCursorAdapter.swapCursor(null);
-
     }
 }
