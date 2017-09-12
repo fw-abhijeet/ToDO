@@ -1,6 +1,11 @@
 package com.example.abhijeet.todo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
+import static android.R.attr.min;
 
 /**
  * Created by Abhijeet on 9/9/2017.
@@ -59,7 +64,7 @@ public class Date_time_normalizer {
      * HELPER METHOD to get the time normalized back to readable format
      * Because the time is stored as an integer variable in the database(minutes_after_midnight)
      *
-     * @param minutes_after_midnight time output from the databsew
+     * @param minutes_after_midnight time output from the database
      * @return Returns a String with the correctly Formatted Time
      */
     public static String getTimeAsNormalized(int minutes_after_midnight) {
@@ -69,5 +74,12 @@ public class Date_time_normalizer {
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         return timeFormatter(c);
+    }
+
+    public static String dateFormatter(Calendar calReference) {
+        int month = calReference.get(Calendar.MONTH);
+        int year = calReference.get(Calendar.YEAR);
+        int day = calReference.get(Calendar.DAY_OF_MONTH);
+        return "" + day + "-" + month + "-" + year;
     }
 }

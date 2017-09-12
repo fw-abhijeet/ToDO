@@ -53,7 +53,7 @@ public class TodoCursorAdaptor extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         //Get the relevant views where the info has to be shown
         TextView tasktextview = (TextView) view.findViewById(R.id.task_show);
-        TextView timedatetextview = (TextView) view.findViewById(R.id.time_date_show);
+        TextView timedatetextview = (TextView) view.findViewById(R.id.time_show);
 
         //Read the relevant attributes from the cursor to display in the textviews
         String task = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_TASK));

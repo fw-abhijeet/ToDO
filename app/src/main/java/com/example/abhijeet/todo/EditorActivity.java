@@ -26,14 +26,17 @@ import java.util.Calendar;
 
 public class EditorActivity extends AppCompatActivity {
 
-    //Selected time by the user if not it is the current system time
-    private static Calendar selecteddatetime;
+    //Selected time by the user if not it is the current system time (Initially Current Time)
+    private static Calendar selecteddatetime = Calendar.getInstance();
 
     //Global field for the EditTime Field
     private static TextView time_textview;
 
     //Global Field for TaskEdit Field
     private static TextView task_textview;
+
+    //Global Field fot DateEdit Field
+    private static TextView date_textview;
 
     //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
     // else a lot of functionalities would break :(
@@ -53,13 +56,16 @@ public class EditorActivity extends AppCompatActivity {
         //Get references to all the data fields in the Editor Window
         time_textview = (TextView) findViewById(R.id.time_edit_field);
         task_textview = (TextView) findViewById(R.id.task_edit_field);
+        date_textview = (TextView) findViewById(R.id.date_edit_field);
 
         //Set on touch Listeners For all the fields available in the editor
         //To find out if the user has changed any data or not
         //Set the variable misaNewtask to true if any touch event occurs
         task_textview.setOnTouchListener(mTouchListener);
         time_textview.setOnTouchListener(mTouchListener);
+        date_textview.setOnTouchListener(mTouchListener);
 
+        //Set OnClick Listener for the Time Picker Fragment
         time_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,16 +74,19 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
-        //Get the Current Time and use it as default display for time text view
-        Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        //set the current time as selected time if user has not selected any time
-        selecteddatetime = c;
-        //Update the text view with the formatted Time
-        time_textview.setText(Date_time_normalizer.timeFormatter(c));
+        //Set OnClick Listener for the Date Picker Fragment
+        date_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getFragmentManager(), "datePicker");
+            }
+        });
 
-
+        //Set the current Dat/ time as selected Date/Time if user has not selected anything
+        //Update the text view with the formatted Date & Time
+        time_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
+        date_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
     }
 
     @Override
@@ -178,7 +187,6 @@ public class EditorActivity extends AppCompatActivity {
         @Override
         public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
             //Initialise a calendar object with the user selected time
-            selecteddatetime = Calendar.getInstance();
             selecteddatetime.set(Calendar.HOUR_OF_DAY, hourOfDay);
             selecteddatetime.set(Calendar.MINUTE, minute);
 
@@ -205,10 +213,13 @@ public class EditorActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Initialize a calendar object with the user selected date
-            selecteddatetime = Calendar.getInstance();
             selecteddatetime.set(Calendar.DAY_OF_MONTH, day);
             selecteddatetime.set(Calendar.MONTH, month);
             selecteddatetime.set(Calendar.YEAR, year);
+
+            //update the date text view by calling the dateformatter helper method to format the date as per the needs
+            date_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
+
         }
     }
 
