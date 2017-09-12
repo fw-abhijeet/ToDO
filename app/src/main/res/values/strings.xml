@@ -11,4 +11,5 @@
     <string name="are_you_sure_you_want_to_discard_changes"> Are you sure you want to discard changes ?</string>
     <string name="yes_discard">Yes, Discard</string>
     <string name="no_keep_editing">No, Keep editing</string>
+    <string name="date">Date</string>
 </resources>

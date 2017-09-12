@@ -2,46 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="230dp"
     android:orientation="vertical"
     tools:context="com.example.abhijeet.todo.EditorActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <!-- Label -->
+        <!-- Task Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:paddingRight="72dp"
             android:text="@string/task" />
 
-        <!-- Name field -->
+        <!-- Task Edit field -->
         <EditText
             android:id="@+id/task_edit_field"
             style="@style/EditorFieldStyle"
+            android:layout_marginTop="4dp"
             android:hint="@string/task"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:scrollbarSize="0dp"
+            android:scrollbars="horizontal" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <!-- Label -->
+        <!-- Label  Time-->
         <TextView
-            android:id="@+id/textView"
             style="@style/CategoryStyle"
-            android:paddingRight="72dp"
             android:text="@string/time" />
 
-        <!-- Name field -->
+        <!-- Time Edit field -->
         <TextView
             android:id="@+id/time_edit_field"
             style="@style/EditorFieldStyle"
             android:hint="@string/time" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Label  Date-->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/date" />
+
+        <!-- Date Edit field -->
+        <TextView
+            android:id="@+id/date_edit_field"
+            style="@style/EditorFieldStyle"
+            android:hint="@string/date" />
 
     </LinearLayout>
 
