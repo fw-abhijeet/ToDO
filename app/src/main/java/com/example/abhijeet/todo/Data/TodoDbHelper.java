@@ -25,7 +25,10 @@ public class TodoDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_TODO_TABLE = "CREATE TABLE " + TodoContract.TodoEntry.TABLE_NAME + " ("
                 + TodoContract.TodoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TodoContract.TodoEntry.COLUMN_TASK + " TEXT NOT NULL, "
-                + TodoContract.TodoEntry.COLUMN_TIME + " INTEGER NOT NULL);";
+                + TodoContract.TodoEntry.COLUMN_TIME + " INTEGER NOT NULL"
+                + TodoContract.TodoEntry.COLUMN_DATE_DAYOFMONTH + "INTEGER NOT NULL"
+                + TodoContract.TodoEntry.COLUMN_DATE_MONTH + "INTEGER NOT NULL"
+                + TodoContract.TodoEntry.COLUMN_DATE_YEAR + "INTEGER NOT NULL);";
 
         //Execute the SQL statement
         db.execSQL(SQL_CREATE_TODO_TABLE);

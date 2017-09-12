@@ -101,17 +101,7 @@ public class EditorActivity extends AppCompatActivity {
         // true to consume it here.
         switch (item.getItemId()) {
             case R.id.add_menu_button:
-                //Get the data from Task textview
-                TextView task_view = (TextView) findViewById(R.id.task_edit_field);
-                String task = task_view.getText().toString().trim();
-
-                //get time from the global calender variable
-                int minutes_after_midnight = Date_time_normalizer.getTimeAsMinutes(selecteddatetime);
-                ContentValues values = new ContentValues();
-                values.put(TodoContract.TodoEntry.COLUMN_TASK, task);
-                values.put(TodoContract.TodoEntry.COLUMN_TIME, minutes_after_midnight);
-                Uri uri = getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
-
+                Uri uri = addtodo();
                 //If the Uri equals null means that insertion is not successful
                 //This case is already handled by Todoprovider insert method
 
@@ -168,6 +158,41 @@ public class EditorActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /**
+     * HELPER METHOD FOR ADDING A NEW TO_DO
+     * returns a uri
+     */
+    private Uri addtodo() {
+        //Get the data from Task textview
+        TextView task_view = (TextView) findViewById(R.id.task_edit_field);
+        String task = task_view.getText().toString().trim();
+
+        //Get time from the global calender variable
+        int minutes_after_midnight = Date_time_normalizer.getTimeAsMinutes(selecteddatetime);
+
+        //Get date from global calendar variable
+        int day_of_month = selecteddatetime.get(Calendar.DAY_OF_MONTH);
+        int month = selecteddatetime.get(Calendar.MONTH);
+        int year = selecteddatetime.get(Calendar.YEAR);
+
+        //Construct the ContentValues object with the data
+        ContentValues values = new ContentValues();
+        values.put(TodoContract.TodoEntry.COLUMN_TASK, task);
+        values.put(TodoContract.TodoEntry.COLUMN_TIME, minutes_after_midnight);
+        values.put(TodoContract.TodoEntry.COLUMN_DATE_DAYOFMONTH, day_of_month);
+        values.put(TodoContract.TodoEntry.COLUMN_DATE_MONTH, month);
+        values.put(TodoContract.TodoEntry.COLUMN_DATE_YEAR, year);
+        Uri uri = getContentResolver().insert(TodoContract.TodoEntry.CONTENT_URI, values);
+        return uri;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Calendar c = Calendar.getInstance();
+        selecteddatetime = c;
+    }
+
     //Inner Class for the time picker
     public static class Picker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
@@ -175,9 +200,8 @@ public class EditorActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            int hour = selecteddatetime.get(Calendar.HOUR_OF_DAY);
+            int minute = selecteddatetime.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute, false);
@@ -222,6 +246,5 @@ public class EditorActivity extends AppCompatActivity {
 
         }
     }
-
 }
 

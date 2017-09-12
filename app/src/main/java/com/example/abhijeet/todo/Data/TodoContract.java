@@ -50,6 +50,11 @@ public final class TodoContract {
 
         public final static String COLUMN_TASK = "task";
 
+        public final static String COLUMN_DATE_MONTH = "month";
+
+        public final static String COLUMN_DATE_YEAR = "year";
+
+        public final static String COLUMN_DATE_DAYOFMONTH = "day";
 
     }
 }
