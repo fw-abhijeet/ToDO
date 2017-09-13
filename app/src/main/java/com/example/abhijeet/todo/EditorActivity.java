@@ -34,17 +34,23 @@ public class EditorActivity extends AppCompatActivity {
     private static Calendar selecteddatetime = Calendar.getInstance();
 
     //Global field for the EditTime Field
-    private static TextView time_textview;
+    private static TextView mtime_textview;
 
     //Global Field for TaskEdit Field
-    private static TextView task_textview;
+    private static TextView mtask_textview;
 
     //Global Field fot DateEdit Field
-    private static TextView date_textview;
+    private static TextView mdate_textview;
+
     //Global field for priority
     private static int mPriority = TodoContract.TodoEntry.PRIORITY_NO_PRIORITY;
+
     //Global priority spinner
     private Spinner mPrioritySpinner;
+
+    //Global priority color text view
+    private TextView mPriorityColorTextView;
+
     //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
     // else a lot of functionalities would break :(
     private boolean misaNewTask = false;
@@ -61,21 +67,21 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
         //Get references to all the data fields in the Editor Window
-        time_textview = (TextView) findViewById(R.id.time_edit_field);
-        task_textview = (TextView) findViewById(R.id.task_edit_field);
-        date_textview = (TextView) findViewById(R.id.date_edit_field);
+        mtime_textview = (TextView) findViewById(R.id.time_edit_field);
+        mtask_textview = (TextView) findViewById(R.id.task_edit_field);
+        mdate_textview = (TextView) findViewById(R.id.date_edit_field);
         mPrioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
 
         //Set on touch Listeners For all the fields available in the editor
         //To find out if the user has changed any data or not
         //Set the variable misaNewtask to true if any touch event occurs
-        task_textview.setOnTouchListener(mTouchListener);
-        time_textview.setOnTouchListener(mTouchListener);
-        date_textview.setOnTouchListener(mTouchListener);
+        mtask_textview.setOnTouchListener(mTouchListener);
+        mtime_textview.setOnTouchListener(mTouchListener);
+        mdate_textview.setOnTouchListener(mTouchListener);
         mPrioritySpinner.setOnTouchListener(mTouchListener);
 
         //Set OnClick Listener for the Time Picker Fragment
-        time_textview.setOnClickListener(new View.OnClickListener() {
+        mtime_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Picker timepicker = new Picker();
@@ -84,7 +90,7 @@ public class EditorActivity extends AppCompatActivity {
         });
 
         //Set OnClick Listener for the Date Picker Fragment
-        date_textview.setOnClickListener(new View.OnClickListener() {
+        mdate_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
@@ -94,8 +100,8 @@ public class EditorActivity extends AppCompatActivity {
 
         //Set the current Date/time as selected Date/Time if user has not selected anything
         //Update the text view with the formatted Date & Time
-        time_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
-        date_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
+        mtime_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
+        mdate_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
 
         setupSpinner();
     }
@@ -110,7 +116,7 @@ public class EditorActivity extends AppCompatActivity {
                 R.array.priority_array, android.R.layout.simple_spinner_item);
 
         // Specify dropdown layout style - simple list view with 1 item per line
-        prioritySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        prioritySpinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         // Apply the adapter to the spinner
         mPrioritySpinner.setAdapter(prioritySpinnerAdapter);
@@ -266,7 +272,7 @@ public class EditorActivity extends AppCompatActivity {
             selecteddatetime.set(Calendar.MINUTE, minute);
 
             //update the time text view by calling the timeformatter helper method to format the time as per the needs
-            time_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
+            mtime_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
         }
 
     }
@@ -293,7 +299,7 @@ public class EditorActivity extends AppCompatActivity {
             selecteddatetime.set(Calendar.YEAR, year);
 
             //update the date text view by calling the dateformatter helper method to format the date as per the needs
-            date_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
+            mdate_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
 
         }
     }
