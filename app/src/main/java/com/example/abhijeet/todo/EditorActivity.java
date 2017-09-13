@@ -10,11 +10,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -37,7 +41,10 @@ public class EditorActivity extends AppCompatActivity {
 
     //Global Field fot DateEdit Field
     private static TextView date_textview;
-
+    //Global field for priority
+    private static int mPriority = TodoContract.TodoEntry.PRIORITY_NO_PRIORITY;
+    //Global priority spinner
+    private Spinner mPrioritySpinner;
     //IMPORTANT: This variable needs to be updated everytime anything in the task info has changed,
     // else a lot of functionalities would break :(
     private boolean misaNewTask = false;
@@ -57,6 +64,7 @@ public class EditorActivity extends AppCompatActivity {
         time_textview = (TextView) findViewById(R.id.time_edit_field);
         task_textview = (TextView) findViewById(R.id.task_edit_field);
         date_textview = (TextView) findViewById(R.id.date_edit_field);
+        mPrioritySpinner = (Spinner) findViewById(R.id.priority_spinner);
 
         //Set on touch Listeners For all the fields available in the editor
         //To find out if the user has changed any data or not
@@ -64,6 +72,7 @@ public class EditorActivity extends AppCompatActivity {
         task_textview.setOnTouchListener(mTouchListener);
         time_textview.setOnTouchListener(mTouchListener);
         date_textview.setOnTouchListener(mTouchListener);
+        mPrioritySpinner.setOnTouchListener(mTouchListener);
 
         //Set OnClick Listener for the Time Picker Fragment
         time_textview.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +92,54 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
-        //Set the current Dat/ time as selected Date/Time if user has not selected anything
+        //Set the current Date/time as selected Date/Time if user has not selected anything
         //Update the text view with the formatted Date & Time
         time_textview.setText(Date_time_normalizer.timeFormatter(selecteddatetime));
         date_textview.setText(Date_time_normalizer.dateFormatter(selecteddatetime));
+
+        setupSpinner();
     }
 
+    /**
+     * Setup the dropdown spinner that allows the user to select the priority of the to-do.
+     */
+    private void setupSpinner() {
+        // Create adapter for spinner. The list options are from the String array
+        // The spinner will use the default layout
+        ArrayAdapter prioritySpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.priority_array, android.R.layout.simple_spinner_item);
+
+        // Specify dropdown layout style - simple list view with 1 item per line
+        prioritySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        // Apply the adapter to the spinner
+        mPrioritySpinner.setAdapter(prioritySpinnerAdapter);
+
+        // Set the integer mSelected to the constant values
+        mPrioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.low))) {
+                        mPriority = TodoContract.TodoEntry.PRIORITY_LOW;
+                    } else if (selection.equals(getString(R.string.medium))) {
+                        mPriority = TodoContract.TodoEntry.PRIORITY_MEDIUM;
+                    } else if (selection.equals(getString(R.string.high))) {
+                        mPriority = TodoContract.TodoEntry.PRIORITY_HIGH;
+                    } else {
+                        mPriority = TodoContract.TodoEntry.PRIORITY_NO_PRIORITY;
+                    }
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mPriority = TodoContract.TodoEntry.PRIORITY_NO_PRIORITY;
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.taskeditor_menu, menu);

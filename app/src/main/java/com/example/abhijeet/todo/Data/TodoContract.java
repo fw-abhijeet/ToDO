@@ -56,5 +56,14 @@ public final class TodoContract {
 
         public final static String COLUMN_DATE_DAYOFMONTH = "day";
 
+        public final static String COLUMN_PRIORITY = "priority";
+
+        /**
+         * Possible values of Priority
+         */
+        public final static int PRIORITY_NO_PRIORITY = 0;
+        public final static int PRIORITY_LOW = 1;
+        public final static int PRIORITY_MEDIUM = 2;
+        public final static int PRIORITY_HIGH = 3;
     }
 }

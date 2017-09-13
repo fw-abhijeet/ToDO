@@ -12,4 +12,15 @@
     <string name="yes_discard">Yes, Discard</string>
     <string name="no_keep_editing">No, Keep editing</string>
     <string name="date">Date</string>
+    <string name="priority">Priority</string>
+    <string name="none">None</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
+    <string-array name="priority_array">
+        <item>None</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 </resources>
