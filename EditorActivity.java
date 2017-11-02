@@ -22,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toast2;
 
 import com.example.abhijeet.todo.Data.TodoContract;
 
