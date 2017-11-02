@@ -87,4 +87,8 @@ public void foo()
 {
 	//do something
 }
+public void bar()
+{
+	//do something
+}
 }
