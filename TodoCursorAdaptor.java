@@ -72,4 +72,9 @@ public class TodoCursorAdaptor extends CursorAdapter {
         timetextview.setText(normalized_time);
         datetextview.setText("" + dayofmonth + "-" + month + "-" + year);
     }
+	
+public void foo()
+{
+ //do something
+}
 }
