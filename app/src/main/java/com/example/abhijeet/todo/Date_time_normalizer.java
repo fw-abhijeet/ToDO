@@ -82,4 +82,9 @@ public class Date_time_normalizer {
         int day = calReference.get(Calendar.DAY_OF_MONTH);
         return "" + day + "-" + month + "-" + year;
     }
+
+public void foo()
+{
+	//do something
+}
 }
