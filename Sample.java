@@ -8,6 +8,8 @@ class Simple
    public void foo()
   {
 	//Do something
-	//Do something 1
+	//Do something 2
+	//Do something 3
+	//Do something 4
   }
 }  
