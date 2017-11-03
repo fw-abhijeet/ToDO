@@ -9,6 +9,5 @@ class Simple
   {
 	//Do something
 	//Do something 2
-	//Do something 3
   }
 }  
