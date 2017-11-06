@@ -8,6 +8,7 @@ class Simple
    public void foo()
 {
  //Do nothing
+ //Do nothing 2
 }
 
 }  
